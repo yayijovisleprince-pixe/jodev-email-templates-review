@@ -1,0 +1,17 @@
+{
+  "name": "jodev-email-templates-review",
+  "version": "1.0.0",
+  "description": "JoDev Email Templates Review & Feedback Studio",
+  "scripts": {
+    "start": "npx serve . -p 3000",
+    "dev": "npx serve . -p 3000"
+  },
+  "keywords": [
+    "email-templates",
+    "html-email",
+    "jodev",
+    "feedback"
+  ],
+  "author": "Jovis YAYI",
+  "license": "MIT"
+}

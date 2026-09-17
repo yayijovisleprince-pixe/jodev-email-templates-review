@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JoDev Mail Studio — Donnez votre avis sur les designs</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: #060b13;
+      color: #e2e8f0;
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    header {
+      background: #090f19;
+      border-bottom: 1px solid #1e293b;
+      padding: 16px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 16px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .brand-badge {
+      background: linear-gradient(135deg, #c9a84c, #e0c878);
+      color: #060b13;
+      font-weight: 800;
+      font-size: 13px;
+      padding: 5px 12px;
+      border-radius: 6px;
+      letter-spacing: 0.5px;
+    }
+    .brand-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: #ffffff;
+    }
+    .brand-sub {
+      font-size: 12px;
+      color: #64748b;
+    }
+    .controls {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .btn-group {
+      display: flex;
+      background: #0f172a;
+      border: 1px solid #334155;
+      border-radius: 8px;
+      padding: 3px;
+      gap: 2px;
+    }
+    .pill-btn {
+      background: transparent;
+      border: none;
+      color: #94a3b8;
+      font-family: inherit;
+      font-size: 13px;
+      font-weight: 600;
+      padding: 7px 14px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      white-space: nowrap;
+    }
+    .pill-btn:hover {
+      color: #f1f5f9;
+      background: rgba(255,255,255,0.04);
+    }
+    .pill-btn.active {
+      background: #1e293b;
+      color: #c9a84c;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+    }
+    .pill-btn.active.gold {
+      background: linear-gradient(135deg, #c9a84c 0%, #b39238 100%);
+      color: #060b13;
+      font-weight: 700;
+    }
+    .main-layout {
+      flex: 1;
+      display: flex;
+      padding: 24px;
+      gap: 24px;
+      max-width: 1650px;
+      margin: 0 auto;
+      width: 100%;
+    }
+    .preview-stage {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      min-height: 700px;
+    }
+    .viewport-frame {
+      background: #0f172a;
+      border: 1px solid #1e293b;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      width: 100%;
+      max-width: 720px;
+      display: flex;
+      flex-direction: column;
+    }
+    .viewport-frame.mobile {
+      max-width: 390px;
+      border-radius: 36px;
+      border: 10px solid #1e293b;
+      box-shadow: 0 25px 50px -12px rgba(0,0,0,0.8);
+    }
+    .viewport-bar {
+      background: #141f32;
+      padding: 10px 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      border-bottom: 1px solid #1e293b;
+    }
+    .dot { width: 9px; height: 9px; border-radius: 50%; }
+    .dot.red { background: #ef4444; }
+    .dot.yellow { background: #f59e0b; }
+    .dot.green { background: #10b981; }
+    .viewport-info {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      margin-left: 8px;
+    }
+    .viewport-url {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      color: #94a3b8;
+    }
+    .viewport-tag {
+      font-size: 10px;
+      padding: 2px 8px;
+      background: #1e293b;
+      border-radius: 4px;
+      color: #c9a84c;
+      font-weight: 700;
+    }
+    iframe {
+      width: 100%;
+      height: 780px;
+      border: none;
+      background: #ffffff;
+    }
+    .audit-panel {
+      width: 440px;
+      background: #090f19;
+      border: 1px solid #1e293b;
+      border-radius: 12px;
+      padding: 22px;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      height: fit-content;
+    }
+    .audit-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: #f1f5f9;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .card-style-meta {
+      background: #0f172a;
+      border: 1px solid #1e293b;
+      border-radius: 10px;
+      padding: 16px;
+    }
+    .card-style-meta h3 {
+      font-size: 15px;
+      color: #c9a84c;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+    .card-style-meta p {
+      font-size: 13px;
+      color: #cbd5e1;
+      line-height: 1.6;
+    }
+    .points-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      font-size: 13px;
+      color: #94a3b8;
+      line-height: 1.5;
+      margin-top: 10px;
+    }
+    .points-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+    }
+    .points-list li span.check {
+      color: #34d399;
+      font-weight: bold;
+    }
+    /* Feedback Box */
+    .feedback-box {
+      background: linear-gradient(135deg, rgba(201,168,76,0.08) 0%, rgba(20,66,58,0.12) 100%);
+      border: 1px solid rgba(201,168,76,0.3);
+      border-radius: 12px;
+      padding: 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .feedback-box h4 {
+      font-size: 14px;
+      font-weight: 800;
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .feedback-box p {
+      font-size: 12px;
+      color: #94a3b8;
+      line-height: 1.5;
+    }
+    .feedback-textarea {
+      width: 100%;
+      background: #090f19;
+      border: 1px solid #334155;
+      border-radius: 8px;
+      color: #f1f5f9;
+      font-family: inherit;
+      font-size: 13px;
+      padding: 10px 12px;
+      resize: vertical;
+      min-height: 60px;
+      outline: none;
+    }
+    .feedback-textarea:focus {
+      border-color: #c9a84c;
+    }
+    .feedback-actions {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .btn-wa {
+      background: #14423a;
+      color: #ffffff;
+      border: 1px solid #287365;
+      border-radius: 8px;
+      padding: 10px 16px;
+      font-family: inherit;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      text-decoration: none;
+      text-align: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: all 0.2s ease;
+    }
+    .btn-wa:hover {
+      background: #19584d;
+    }
+    .btn-mail {
+      background: #0f172a;
+      color: #cbd5e1;
+      border: 1px solid #334155;
+      border-radius: 8px;
+      padding: 8px 14px;
+      font-family: inherit;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+      text-align: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      transition: all 0.2s ease;
+    }
+    .btn-mail:hover {
+      color: #ffffff;
+      border-color: #64748b;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="brand">
+      <span class="brand-badge">JoDev Studio</span>
+      <div>
+        <div class="brand-title">Atelier & Avis : Nouveaux Templates d'Emails JoDev</div>
+        <div class="brand-sub">Consultez les propositions et partagez directement votre avis</div>
+      </div>
+    </div>
+    
+    <div class="controls">
+      <!-- Sélecteur de Template (Prospection vs Accusé) -->
+      <div class="btn-group" id="templateGroup">
+        <button class="pill-btn active" onclick="setTemplateType('prospecting')">📧 Prospection B2B</button>
+        <button class="pill-btn" onclick="setTemplateType('autoreply')">📩 Accusé Réception Site</button>
+      </div>
+
+      <!-- Viewport Toggle -->
+      <div class="btn-group" id="viewportGroup">
+        <button class="pill-btn active" onclick="setViewport('desktop')">🖥️ Bureau</button>
+        <button class="pill-btn" onclick="setViewport('mobile')">📱 Mobile</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Style Selector Bar -->
+  <div style="background: #0c1524; border-bottom: 1px solid #1e293b; padding: 12px 24px; display: flex; align-items: center; justify-content: center; gap: 12px; flex-wrap: wrap;">
+    <span style="font-size: 12px; font-weight: 700; color: #64748b; text-transform: uppercase; letter-spacing: 0.5px;">Options à tester :</span>
+    <div class="btn-group" id="styleGroup">
+      <button class="pill-btn active gold" onclick="setStyle('epure')">✨ Option A : Épure Executive (Zéro Cadre)</button>
+      <button class="pill-btn" onclick="setStyle('soft')">☁️ Option B : Doux Naturel (Ombre Légère)</button>
+      <button class="pill-btn" onclick="setStyle('dark')">🌙 Option C : Sombre Fluide (Sans Bordure)</button>
+      <button class="pill-btn" onclick="setStyle('current')">⚠️ Ancien Design</button>
+    </div>
+  </div>
+
+  <div class="main-layout">
+    <!-- Visualiseur Iframe -->
+    <div class="preview-stage">
+      <div class="viewport-frame" id="viewportFrame">
+        <div class="viewport-bar">
+          <span class="dot red"></span>
+          <span class="dot yellow"></span>
+          <span class="dot green"></span>
+          <div class="viewport-info">
+            <span class="viewport-url" id="viewportUrl">v2-epure-prospecting.html</span>
+            <span class="viewport-tag" id="viewportTag">RECOMMANDÉ</span>
+          </div>
+        </div>
+        <iframe id="previewFrame" src="v2-epure-prospecting.html"></iframe>
+      </div>
+    </div>
+
+    <!-- Panneau Diagnostic, Analyse & Feedback Direct -->
+    <aside class="audit-panel">
+      <div class="audit-title">
+        <span>Fiche de Conception</span>
+        <span id="activeBadge" style="font-size: 11px; padding: 3px 8px; border-radius: 4px; background: rgba(201,168,76,0.15); color: #c9a84c; font-weight: 700;">
+          OPTION A
+        </span>
+      </div>
+
+      <div class="card-style-meta" id="styleDetails">
+        <!-- Rempli en JS -->
+      </div>
+
+      <div class="card-style-meta">
+        <h4 style="font-size: 12px; color: #64748b; text-transform: uppercase; font-weight: 700; letter-spacing: 0.5px; margin-bottom: 8px;">
+          Spécifications du design
+        </h4>
+        <ul class="points-list" id="stylePoints">
+          <!-- Rempli en JS -->
+        </ul>
+      </div>
+
+      <!-- WIDGET DE VOTE ET D'AVIS -->
+      <div class="feedback-box">
+        <h4>💬 Donnez votre avis à Jovis</h4>
+        <p>
+          Quel design préférez-vous ? Avez-vous une suggestion pour sublimer le rendu ?
+        </p>
+        <textarea id="feedbackText" class="feedback-textarea" placeholder="Votre commentaire, préférence ou suggestion..."></textarea>
+        
+        <div class="feedback-actions">
+          <button onclick="sendViaWhatsApp()" class="btn-wa">
+            📲 Envoyer mon avis sur WhatsApp
+          </button>
+          <button onclick="sendViaEmail()" class="btn-mail">
+            ✉️ Envoyer par Email
+          </button>
+        </div>
+      </div>
+    </aside>
+  </div>
+
+  <script>
+    const styleData = {
+      epure: {
+        name: 'Option A : Épure Executive',
+        tag: 'RECOMMANDÉ',
+        badgeColor: '#c9a84c',
+        desc: 'Suppression totale des cadres fermés et des bordures rigides. La lecture est aérée, naturelle et moderne (style Stripe / Linear / Apple Business). L\'en-tête réserve l\'espace pour votre vrai logo.',
+        points: [
+          'Zéro bordure de cadre : l\'email respire sans boîte rectangulaire étouffante.',
+          'Emplacement propre pour votre logo officiel en en-tête.',
+          'Bloc de rappel sur fond gris doux #f8fafc sans contour lourd.',
+          'Bouton CTA sobre et net (#0f172a / #14423a) avec flèche directionnelle.',
+          'Signature élégante avec liens directs vers portfolio et WhatsApp.'
+        ],
+        files: {
+          prospecting: 'v2-epure-prospecting.html',
+          autoreply: 'v2-epure-autoreply.html'
+        }
+      },
+      soft: {
+        name: 'Option B : Doux Naturel',
+        tag: 'CARTE DOUCE',
+        badgeColor: '#38bdf8',
+        desc: 'Fond gris perle délicat (#f8fafc) avec une carte centrale flottante blanche à ombre ultra-douce. Absolument aucune bordure métallique ou dorée prononcée.',
+        points: [
+          'Zéro bordure : seule une ombre diffuse très subtile donne du relief.',
+          'En-tête épuré avec slot logo dédié.',
+          'Typographie gris ardoise #1e293b haute lisibilité sur mobile et bureau.',
+          'Aspect chaleureux et accessible pour les échanges clients.'
+        ],
+        files: {
+          prospecting: 'v2-soft-prospecting.html',
+          autoreply: 'v2-soft-autoreply.html'
+        }
+      },
+      dark: {
+        name: 'Option C : Sombre Fluide',
+        tag: 'DARK MODE SANS BORDURE',
+        badgeColor: '#a78bfa',
+        desc: 'Pour conserver l\'ambiance sombre du portfolio mais SANS les bordures dorées lourdes. Un fond noir bleuté continu et des séparateurs discrets.',
+        points: [
+          'Zéro bordure dorée ou métallique autour du contenu.',
+          'Typographie claire #cbd5e1 et dorée #c9a84c pour les points clés.',
+          'Bloc de rappel fondu dans la masse (#0c1524).',
+          'Bouton lumineux haute visibilité en mode nuit.'
+        ],
+        files: {
+          prospecting: 'v2-dark-prospecting.html',
+          autoreply: 'v2-dark-autoreply.html'
+        }
+      },
+      current: {
+        name: 'Ancien Design (Actuel)',
+        tag: 'AVANT REFONTE',
+        badgeColor: '#ef4444',
+        desc: 'L\'ancien design avec son cadre rectangulaire et ses bordures visibles.',
+        points: [
+          'Cadre rectangulaire avec bordures prononcées.',
+          'Logo brut en simple texte noir sans travail d\'espacement.',
+          'Aspect boîte générique.'
+        ],
+        files: {
+          prospecting: 'prospecting-current.html',
+          autoreply: 'autoreply-current.html'
+        }
+      }
+    };
+
+    let activeStyle = 'epure';
+    let activeType = 'prospecting';
+    let activeViewport = 'desktop';
+
+    function render() {
+      const data = styleData[activeStyle];
+      const targetFile = data.files[activeType];
+      
+      const frame = document.getElementById('previewFrame');
+      frame.src = targetFile;
+
+      document.getElementById('viewportUrl').textContent = targetFile;
+      const tagEl = document.getElementById('viewportTag');
+      tagEl.textContent = data.tag;
+      tagEl.style.color = data.badgeColor;
+
+      document.getElementById('activeBadge').textContent = data.name.toUpperCase();
+      document.getElementById('activeBadge').style.color = data.badgeColor;
+
+      // Details
+      document.getElementById('styleDetails').innerHTML = `
+        <h3>${data.name}</h3>
+        <p>${data.desc}</p>
+      `;
+
+      // Points
+      document.getElementById('stylePoints').innerHTML = data.points.map(p => `
+        <li><span class="check">✓</span> ${p}</li>
+      `).join('');
+    }
+
+    function setStyle(st) {
+      activeStyle = st;
+      const buttons = document.querySelectorAll('#styleGroup .pill-btn');
+      const keys = ['epure', 'soft', 'dark', 'current'];
+      buttons.forEach((b, idx) => {
+        const isSelected = keys[idx] === st;
+        b.classList.toggle('active', isSelected);
+        b.classList.toggle('gold', isSelected && st === 'epure');
+      });
+      render();
+    }
+
+    function setTemplateType(tp) {
+      activeType = tp;
+      document.querySelectorAll('#templateGroup .pill-btn').forEach((b, idx) => {
+        b.classList.toggle('active', (tp === 'prospecting' && idx === 0) || (tp === 'autoreply' && idx === 1));
+      });
+      render();
+    }
+
+    function setViewport(vp) {
+      activeViewport = vp;
+      document.querySelectorAll('#viewportGroup .pill-btn').forEach((b, idx) => {
+        b.classList.toggle('active', (vp === 'desktop' && idx === 0) || (vp === 'mobile' && idx === 1));
+      });
+      const frameContainer = document.getElementById('viewportFrame');
+      if (vp === 'mobile') {
+        frameContainer.classList.add('mobile');
+      } else {
+        frameContainer.classList.remove('mobile');
+      }
+    }
+
+    // Fonctions d'envoi du feedback
+    function sendViaWhatsApp() {
+      const comment = document.getElementById('feedbackText').value.trim();
+      const styleName = styleData[activeStyle].name;
+      const templateName = activeType === 'prospecting' ? 'Email de Prospection B2B' : 'Email d\'Accusé de Réception';
+      
+      let msg = `Bonjour Jovis ! J'ai examiné tes templates d'emails sur le Mail Studio.\n\n`;
+      msg += `⭐ Mon choix favori : *${styleName}*\n`;
+      msg += `📑 Testé sur : *${templateName}*\n`;
+      if (comment) {
+        msg += `💡 Ma remarque : "${comment}"\n`;
+      }
+      
+      const url = `https://wa.me/2290198404806?text=${encodeURIComponent(msg)}`;
+      window.open(url, '_blank');
+    }
+
+    function sendViaEmail() {
+      const comment = document.getElementById('feedbackText').value.trim();
+      const styleName = styleData[activeStyle].name;
+      const templateName = activeType === 'prospecting' ? 'Email de Prospection B2B' : 'Email d\'Accusé de Réception';
+      
+      const subject = encodeURIComponent(`Mon avis sur les templates d'emails JoDev (${styleName})`);
+      let body = `Bonjour Jovis,\n\nJ'ai testé les templates d'emails sur ton studio de prévisualisation.\n\n`;
+      body += `Style recommandé : ${styleName}\n`;
+      body += `Template évalué : ${templateName}\n\n`;
+      if (comment) {
+        body += `Commentaire / Avis :\n${comment}\n\n`;
+      }
+      body += `À bientôt !`;
+      
+      window.location.href = `mailto:contact@jovisleprinceyayi.com?subject=${subject}&body=${encodeURIComponent(body)}`;
+    }
+
+    render();
+  </script>
+</body>
+</html>
