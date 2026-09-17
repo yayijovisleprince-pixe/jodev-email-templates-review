@@ -4,19 +4,34 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Plateforme e-commerce avec encaissement Mobile Money direct</title>
+  <style>
+    /* Reset & Responsive Email Styles */
+    body, table, td, p, a, li, blockquote { -webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; }
+    table, td { mso-table-lspace: 0pt; mso-table-rspace: 0pt; }
+    img { -ms-interpolation-mode: bicubic; border: 0; outline: none; text-decoration: none; }
+    @media only screen and (max-width: 600px) {
+      .email-wrapper { padding: 24px 14px !important; }
+      .email-container { width: 100% !important; max-width: 100% !important; }
+      .header-col-left { display: block !important; width: 100% !important; text-align: left !important; margin-bottom: 6px !important; }
+      .header-col-right { display: block !important; width: 100% !important; text-align: left !important; font-size: 11px !important; }
+      .mobile-full-width { width: 100% !important; display: block !important; }
+      .mobile-cta-btn { display: block !important; width: 100% !important; box-sizing: border-box !important; text-align: center !important; padding: 14px 20px !important; }
+      .recap-box { padding: 14px 16px !important; }
+    }
+</style>
 </head>
-<body style="margin: 0; padding: 40px 16px; background-color: #ffffff; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; -webkit-font-smoothing: antialiased; color: #1e293b;">
+<body class="email-wrapper" style="margin: 0; padding: 36px 16px; background-color: #ffffff; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; -webkit-font-smoothing: antialiased; color: #1e293b;">
   <table width="100%" border="0" cellspacing="0" cellpadding="0">
     <tr>
       <td align="center">
-        <table width="100%" border="0" cellspacing="0" cellpadding="0" style="max-width: 580px; text-align: left;">
+        <table class="email-container" width="100%" border="0" cellspacing="0" cellpadding="0" style="max-width: 580px; text-align: left;">
           
           <!-- LOGO HEADER (Emplacement propre pour le vrai logo) -->
           <tr>
-            <td style="padding-bottom: 32px;">
+            <td style="padding-bottom: 28px;">
               <table width="100%" border="0" cellspacing="0" cellpadding="0">
                 <tr>
-                  <td style="vertical-align: middle;">
+                  <td class="header-col-left" style="vertical-align: middle;">
                     <!-- SLOT VRAI LOGO : Remplacer la source par l'URL de votre logo officiel -->
                     <div style="display: inline-block;">
                       <span style="font-size: 20px; font-weight: 800; color: #0f172a; letter-spacing: -0.5px;">
@@ -24,7 +39,7 @@
                       </span>
                     </div>
                   </td>
-                  <td align="right" style="vertical-align: middle; font-size: 12px; color: #94a3b8; font-weight: 500;">
+                  <td class="header-col-right" align="right" style="vertical-align: middle; font-size: 12px; color: #94a3b8; font-weight: 500;">
                     Accusé de réception
                   </td>
                 </tr>
@@ -36,30 +51,30 @@
           <tr>
             <td style="font-size: 15px; line-height: 1.75; color: #1e293b;">
               
-      <p style="margin: 0 0 18px; font-size: 16px; font-weight: 600; color: #0f172a;">Bonjour Alexandre Dossou,</p>
-      <p style="margin: 0 0 18px; font-size: 15px; line-height: 1.75; color: #1e293b;">
+      <p style="margin: 0 0 16px; font-size: 16px; font-weight: 600; color: #0f172a;">Bonjour Alexandre Dossou,</p>
+      <p style="margin: 0 0 16px; font-size: 15px; line-height: 1.7; color: #1e293b;">
         J'accuse bonne réception de votre message concernant votre projet : <strong style="color: #0f172a;">Plateforme e-commerce avec encaissement Mobile Money direct</strong>.
       </p>
-      <p style="margin: 0 0 22px; font-size: 15px; line-height: 1.75; color: #475569;">
+      <p style="margin: 0 0 20px; font-size: 15px; line-height: 1.7; color: #475569;">
         Chaque projet comportant des enjeux techniques et métiers uniques, j'examine personnellement vos objectifs afin de vous apporter un retour pertinent et réaliste.
       </p>
 
       <!-- Rappel sans bordure lourde, fond très doux -->
-      <div style="margin: 22px 0; padding: 18px 22px; background: #f8fafc; border-radius: 8px;">
+      <div class="recap-box" style="margin: 20px 0; padding: 16px 20px; background: #f8fafc; border-radius: 8px;">
         <div style="font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: #64748b; margin-bottom: 6px;">
           Rappel de votre message :
         </div>
-        <div style="font-size: 14px; color: #334155; font-style: italic; line-height: 1.65;">
+        <div style="font-size: 13.5px; color: #334155; font-style: italic; line-height: 1.6;">
           "Bonjour Jovis, nous recherchons un développeur pour concevoir une application web e-commerce réactive avec encaissement direct MTN/Moov et tableau de bord de gestion des stocks. Délais souhaités : 4 semaines."
         </div>
       </div>
 
       <!-- Étapes suivantes fluides -->
-      <div style="margin: 26px 0; padding: 4px 0;">
-        <div style="font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: #0f172a; margin-bottom: 12px;">
+      <div style="margin: 22px 0; padding: 4px 0;">
+        <div style="font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: #0f172a; margin-bottom: 10px;">
           Ce qui se passe maintenant :
         </div>
-        <div style="font-size: 14px; color: #475569; line-height: 1.8;">
+        <div style="font-size: 13.5px; color: #475569; line-height: 1.75;">
           &bull; <strong style="color: #0f172a;">Analyse de cadrage :</strong> étude de faisabilité et identification des technologies adaptées.<br/>
           &bull; <strong style="color: #0f172a;">Retour sous 24h à 48h :</strong> estimation budgétaire et calendrier prévisionnel.<br/>
           &bull; <strong style="color: #0f172a;">Échange direct :</strong> court appel de 15 minutes par téléphone ou visio si souhaité.
@@ -68,10 +83,10 @@
     
 
               
-      <table border="0" cellspacing="0" cellpadding="0" style="margin: 28px 0 16px;">
+      <table class="mobile-full-width" border="0" cellspacing="0" cellpadding="0" style="margin: 24px 0 16px;">
         <tr>
           <td align="center" style="border-radius: 6px; background-color: #14423a;">
-            <a href="https://wa.me/2290198404806" target="_blank" rel="noopener noreferrer" style="font-size: 14px; font-weight: 600; color: #ffffff; text-decoration: none; padding: 14px 28px; display: inline-block; letter-spacing: 0.2px;">
+            <a href="https://wa.me/2290198404806" target="_blank" rel="noopener noreferrer" class="mobile-cta-btn" style="font-size: 14px; font-weight: 600; color: #ffffff; text-decoration: none; padding: 13px 26px; display: inline-block; letter-spacing: 0.2px;">
               Échanger directement sur WhatsApp (+229 01 98 40 48 06) &nbsp;&rarr;
             </a>
           </td>
@@ -80,7 +95,7 @@
     
 
               <!-- SIGNATURE ÉPURÉE HAUTE QUALITÉ -->
-              <div style="margin-top: 36px; padding-top: 24px; border-top: 1px solid #f1f5f9;">
+              <div style="margin-top: 32px; padding-top: 22px; border-top: 1px solid #f1f5f9;">
                 <div style="font-size: 15px; font-weight: 700; color: #0f172a;">Jovis YAYI</div>
                 <div style="font-size: 13px; color: #475569; margin-top: 3px;">
                   Concepteur de solutions digitales & Architecte web &bull; JoDev
@@ -103,7 +118,7 @@
 
           <!-- MENTION LÉGALE DISCRÈTE -->
           <tr>
-            <td style="padding-top: 32px; font-size: 11px; line-height: 1.6; color: #94a3b8;">
+            <td style="padding-top: 28px; font-size: 11px; line-height: 1.6; color: #94a3b8;">
               Cet email automatique est envoyé pour certifier la réception de votre demande via jovisleprinceyayi.com.
             </td>
           </tr>

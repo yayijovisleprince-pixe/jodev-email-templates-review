@@ -2,13 +2,17 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>JoDev Mail Studio — Donnez votre avis sur les designs</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>JoDev Mail Studio — Atelier & Vote sur les Templates</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body {
+      overflow-x: hidden;
+      width: 100%;
+    }
     body {
       background: #060b13;
       color: #e2e8f0;
@@ -16,47 +20,53 @@
       min-height: 100vh;
       display: flex;
       flex-direction: column;
+      -webkit-font-smoothing: antialiased;
     }
+
+    /* HEADER RESPONSIVE */
     header {
       background: #090f19;
       border-bottom: 1px solid #1e293b;
-      padding: 16px 24px;
+      padding: 14px 20px;
       display: flex;
       align-items: center;
       justify-content: space-between;
       flex-wrap: wrap;
-      gap: 16px;
+      gap: 12px;
       position: sticky;
       top: 0;
       z-index: 100;
+      width: 100%;
     }
     .brand {
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 10px;
     }
     .brand-badge {
       background: linear-gradient(135deg, #c9a84c, #e0c878);
       color: #060b13;
       font-weight: 800;
-      font-size: 13px;
-      padding: 5px 12px;
+      font-size: 12px;
+      padding: 4px 10px;
       border-radius: 6px;
       letter-spacing: 0.5px;
+      white-space: nowrap;
     }
     .brand-title {
-      font-size: 16px;
+      font-size: 15px;
       font-weight: 700;
       color: #ffffff;
+      line-height: 1.2;
     }
     .brand-sub {
-      font-size: 12px;
+      font-size: 11px;
       color: #64748b;
     }
     .controls {
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 10px;
       flex-wrap: wrap;
     }
     .btn-group {
@@ -64,7 +74,7 @@
       background: #0f172a;
       border: 1px solid #334155;
       border-radius: 8px;
-      padding: 3px;
+      padding: 2px;
       gap: 2px;
     }
     .pill-btn {
@@ -72,13 +82,16 @@
       border: none;
       color: #94a3b8;
       font-family: inherit;
-      font-size: 13px;
+      font-size: 12.5px;
       font-weight: 600;
-      padding: 7px 14px;
+      padding: 7px 12px;
       border-radius: 6px;
       cursor: pointer;
       transition: all 0.2s ease;
       white-space: nowrap;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
     }
     .pill-btn:hover {
       color: #f1f5f9;
@@ -94,50 +107,88 @@
       color: #060b13;
       font-weight: 700;
     }
+
+    /* BARRE DES STYLES DÉFILABLE SUR MOBILE */
+    .style-bar-wrapper {
+      background: #0c1524;
+      border-bottom: 1px solid #1e293b;
+      padding: 10px 16px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+      width: 100%;
+    }
+    .style-bar-wrapper::-webkit-scrollbar {
+      display: none;
+    }
+    .style-bar-label {
+      font-size: 11px;
+      font-weight: 700;
+      color: #64748b;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .style-pills-container {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-shrink: 0;
+    }
+
+    /* LAYOUT PRINCIPAL RESPONSIVE */
     .main-layout {
       flex: 1;
       display: flex;
+      flex-direction: row;
       padding: 24px;
       gap: 24px;
       max-width: 1650px;
       margin: 0 auto;
       width: 100%;
     }
+
     .preview-stage {
       flex: 1;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: flex-start;
-      min-height: 700px;
+      min-width: 0;
+      width: 100%;
     }
+
     .viewport-frame {
       background: #0f172a;
       border: 1px solid #1e293b;
       border-radius: 12px;
       overflow: hidden;
-      box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+      box-shadow: 0 16px 36px rgba(0,0,0,0.5);
       transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
       width: 100%;
       max-width: 720px;
       display: flex;
       flex-direction: column;
     }
-    .viewport-frame.mobile {
+    .viewport-frame.mobile-sim {
       max-width: 390px;
-      border-radius: 36px;
-      border: 10px solid #1e293b;
+      border-radius: 28px;
+      border: 6px solid #1e293b;
       box-shadow: 0 25px 50px -12px rgba(0,0,0,0.8);
     }
     .viewport-bar {
       background: #141f32;
-      padding: 10px 16px;
+      padding: 9px 14px;
       display: flex;
       align-items: center;
       gap: 8px;
       border-bottom: 1px solid #1e293b;
     }
-    .dot { width: 9px; height: 9px; border-radius: 50%; }
+    .dot { width: 8px; height: 8px; border-radius: 50%; }
     .dot.red { background: #ef4444; }
     .dot.yellow { background: #f59e0b; }
     .dot.green { background: #10b981; }
@@ -146,40 +197,51 @@
       align-items: center;
       justify-content: space-between;
       width: 100%;
-      margin-left: 8px;
+      margin-left: 6px;
+      overflow: hidden;
     }
     .viewport-url {
       font-family: 'JetBrains Mono', monospace;
       font-size: 11px;
       color: #94a3b8;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
     .viewport-tag {
-      font-size: 10px;
-      padding: 2px 8px;
+      font-size: 9.5px;
+      padding: 2px 7px;
       background: #1e293b;
       border-radius: 4px;
       color: #c9a84c;
       font-weight: 700;
+      flex-shrink: 0;
+      margin-left: 8px;
     }
     iframe {
       width: 100%;
-      height: 780px;
+      height: 720px;
       border: none;
       background: #ffffff;
+      display: block;
     }
+
+    /* PANNEAU D'AVIS & DIAGNOSTIC */
     .audit-panel {
       width: 440px;
+      max-width: 100%;
       background: #090f19;
       border: 1px solid #1e293b;
       border-radius: 12px;
-      padding: 22px;
+      padding: 20px;
       display: flex;
       flex-direction: column;
-      gap: 18px;
+      gap: 16px;
       height: fit-content;
+      flex-shrink: 0;
     }
     .audit-title {
-      font-size: 16px;
+      font-size: 15px;
       font-weight: 700;
       color: #f1f5f9;
       display: flex;
@@ -190,16 +252,16 @@
       background: #0f172a;
       border: 1px solid #1e293b;
       border-radius: 10px;
-      padding: 16px;
+      padding: 14px;
     }
     .card-style-meta h3 {
-      font-size: 15px;
+      font-size: 14px;
       color: #c9a84c;
       font-weight: 700;
       margin-bottom: 6px;
     }
     .card-style-meta p {
-      font-size: 13px;
+      font-size: 12.5px;
       color: #cbd5e1;
       line-height: 1.6;
     }
@@ -207,11 +269,11 @@
       list-style: none;
       display: flex;
       flex-direction: column;
-      gap: 8px;
-      font-size: 13px;
+      gap: 7px;
+      font-size: 12.5px;
       color: #94a3b8;
       line-height: 1.5;
-      margin-top: 10px;
+      margin-top: 8px;
     }
     .points-list li {
       display: flex;
@@ -222,12 +284,13 @@
       color: #34d399;
       font-weight: bold;
     }
-    /* Feedback Box */
+
+    /* FEEDBACK CARD */
     .feedback-box {
-      background: linear-gradient(135deg, rgba(201,168,76,0.08) 0%, rgba(20,66,58,0.12) 100%);
+      background: linear-gradient(135deg, rgba(201,168,76,0.08) 0%, rgba(20,66,58,0.15) 100%);
       border: 1px solid rgba(201,168,76,0.3);
       border-radius: 12px;
-      padding: 18px;
+      padding: 16px;
       display: flex;
       flex-direction: column;
       gap: 12px;
@@ -255,8 +318,9 @@
       font-size: 13px;
       padding: 10px 12px;
       resize: vertical;
-      min-height: 60px;
+      min-height: 64px;
       outline: none;
+      -webkit-appearance: none;
     }
     .feedback-textarea:focus {
       border-color: #c9a84c;
@@ -271,7 +335,7 @@
       color: #ffffff;
       border: 1px solid #287365;
       border-radius: 8px;
-      padding: 10px 16px;
+      padding: 12px 16px;
       font-family: inherit;
       font-size: 13px;
       font-weight: 700;
@@ -283,8 +347,9 @@
       justify-content: center;
       gap: 8px;
       transition: all 0.2s ease;
+      min-height: 44px;
     }
-    .btn-wa:hover {
+    .btn-wa:hover, .btn-wa:active {
       background: #19584d;
     }
     .btn-mail {
@@ -292,7 +357,7 @@
       color: #cbd5e1;
       border: 1px solid #334155;
       border-radius: 8px;
-      padding: 8px 14px;
+      padding: 10px 14px;
       font-family: inherit;
       font-size: 12px;
       font-weight: 600;
@@ -304,20 +369,94 @@
       justify-content: center;
       gap: 6px;
       transition: all 0.2s ease;
+      min-height: 40px;
     }
-    .btn-mail:hover {
+    .btn-mail:hover, .btn-mail:active {
       color: #ffffff;
       border-color: #64748b;
+    }
+
+    /* BREAKPOINTS MOBILE (< 1024px) */
+    @media (max-width: 1024px) {
+      .main-layout {
+        flex-direction: column;
+        padding: 14px 10px;
+        gap: 18px;
+      }
+      .audit-panel {
+        width: 100%;
+        max-width: 100%;
+      }
+      .viewport-frame {
+        max-width: 100%;
+      }
+      iframe {
+        height: 560px;
+      }
+    }
+
+    /* SMARTPHONE (< 640px) */
+    @media (max-width: 640px) {
+      header {
+        padding: 12px 14px;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 10px;
+      }
+      .brand {
+        justify-content: space-between;
+        width: 100%;
+      }
+      .controls {
+        justify-content: space-between;
+        width: 100%;
+      }
+      .controls .btn-group {
+        flex: 1;
+        justify-content: center;
+      }
+      .controls .btn-group .pill-btn {
+        flex: 1;
+        justify-content: center;
+        padding: 8px 6px;
+        font-size: 11.5px;
+      }
+      #viewportGroup {
+        display: none; /* Inutile sur un smartphone physique */
+      }
+      .style-bar-wrapper {
+        padding: 8px 12px;
+      }
+      .style-bar-label {
+        display: none; /* Évite de saturer l'écran */
+      }
+      .style-pills-container .pill-btn {
+        font-size: 11.5px;
+        padding: 6px 11px;
+      }
+      .main-layout {
+        padding: 10px 8px;
+      }
+      iframe {
+        height: 520px;
+      }
+      .viewport-frame.mobile-sim {
+        max-width: 100%;
+        border-radius: 12px;
+        border: 1px solid #1e293b;
+      }
     }
   </style>
 </head>
 <body>
   <header>
     <div class="brand">
-      <span class="brand-badge">JoDev Studio</span>
-      <div>
-        <div class="brand-title">Atelier & Avis : Nouveaux Templates d'Emails JoDev</div>
-        <div class="brand-sub">Consultez les propositions et partagez directement votre avis</div>
+      <div style="display: flex; align-items: center; gap: 8px;">
+        <span class="brand-badge">JoDev Studio</span>
+        <div>
+          <div class="brand-title">Atelier & Avis : Templates d'Emails</div>
+          <div class="brand-sub">Testez et donnez votre avis en direct</div>
+        </div>
       </div>
     </div>
     
@@ -325,30 +464,30 @@
       <!-- Sélecteur de Template (Prospection vs Accusé) -->
       <div class="btn-group" id="templateGroup">
         <button class="pill-btn active" onclick="setTemplateType('prospecting')">📧 Prospection B2B</button>
-        <button class="pill-btn" onclick="setTemplateType('autoreply')">📩 Accusé Réception Site</button>
+        <button class="pill-btn" onclick="setTemplateType('autoreply')">📩 Accusé Réception</button>
       </div>
 
-      <!-- Viewport Toggle -->
+      <!-- Viewport Toggle (visible sur écran bureau/tablette) -->
       <div class="btn-group" id="viewportGroup">
-        <button class="pill-btn active" onclick="setViewport('desktop')">🖥️ Bureau</button>
-        <button class="pill-btn" onclick="setViewport('mobile')">📱 Mobile</button>
+        <button class="pill-btn active" onclick="setViewport('desktop')">🖥️ 600px</button>
+        <button class="pill-btn" onclick="setViewport('mobile')">📱 390px</button>
       </div>
     </div>
   </header>
 
-  <!-- Style Selector Bar -->
-  <div style="background: #0c1524; border-bottom: 1px solid #1e293b; padding: 12px 24px; display: flex; align-items: center; justify-content: center; gap: 12px; flex-wrap: wrap;">
-    <span style="font-size: 12px; font-weight: 700; color: #64748b; text-transform: uppercase; letter-spacing: 0.5px;">Options à tester :</span>
-    <div class="btn-group" id="styleGroup">
-      <button class="pill-btn active gold" onclick="setStyle('epure')">✨ Option A : Épure Executive (Zéro Cadre)</button>
-      <button class="pill-btn" onclick="setStyle('soft')">☁️ Option B : Doux Naturel (Ombre Légère)</button>
-      <button class="pill-btn" onclick="setStyle('dark')">🌙 Option C : Sombre Fluide (Sans Bordure)</button>
+  <!-- Style Selector Bar Défilable Fluidement -->
+  <div class="style-bar-wrapper">
+    <span class="style-bar-label">Styles :</span>
+    <div class="style-pills-container" id="styleGroup">
+      <button class="pill-btn active gold" onclick="setStyle('epure')">✨ Option A : Épure Executive</button>
+      <button class="pill-btn" onclick="setStyle('soft')">☁️ Option B : Doux Naturel</button>
+      <button class="pill-btn" onclick="setStyle('dark')">🌙 Option C : Sombre Fluide</button>
       <button class="pill-btn" onclick="setStyle('current')">⚠️ Ancien Design</button>
     </div>
   </div>
 
   <div class="main-layout">
-    <!-- Visualiseur Iframe -->
+    <!-- Visualiseur Iframe Responsive -->
     <div class="preview-stage">
       <div class="viewport-frame" id="viewportFrame">
         <div class="viewport-bar">
@@ -386,11 +525,11 @@
         </ul>
       </div>
 
-      <!-- WIDGET DE VOTE ET D'AVIS -->
+      <!-- WIDGET DE VOTE ET D'AVIS DIRECT -->
       <div class="feedback-box">
         <h4>💬 Donnez votre avis à Jovis</h4>
         <p>
-          Quel design préférez-vous ? Avez-vous une suggestion pour sublimer le rendu ?
+          Quel design préférez-vous ? Une remarque pour sublimer le rendu ?
         </p>
         <textarea id="feedbackText" class="feedback-textarea" placeholder="Votre commentaire, préférence ou suggestion..."></textarea>
         
@@ -429,7 +568,7 @@
         name: 'Option B : Doux Naturel',
         tag: 'CARTE DOUCE',
         badgeColor: '#38bdf8',
-        desc: 'Fond gris perle délicat (#f8fafc) avec une carte centrale flottante blanche à ombre ultra-douce. Absolument aucune bordure métallique ou dorée prononcée.',
+        desc: 'Fond gris perle délicat (#f8fafc) avec une carte centrale blanche à ombre ultra-douce. Absolument aucune bordure métallique ou dorée prononcée.',
         points: [
           'Zéro bordure : seule une ombre diffuse très subtile donne du relief.',
           'En-tête épuré avec slot logo dédié.',
@@ -443,7 +582,7 @@
       },
       dark: {
         name: 'Option C : Sombre Fluide',
-        tag: 'DARK MODE SANS BORDURE',
+        tag: 'DARK SANS BORDURE',
         badgeColor: '#a78bfa',
         desc: 'Pour conserver l\'ambiance sombre du portfolio mais SANS les bordures dorées lourdes. Un fond noir bleuté continu et des séparateurs discrets.',
         points: [
@@ -532,9 +671,9 @@
       });
       const frameContainer = document.getElementById('viewportFrame');
       if (vp === 'mobile') {
-        frameContainer.classList.add('mobile');
+        frameContainer.classList.add('mobile-sim');
       } else {
-        frameContainer.classList.remove('mobile');
+        frameContainer.classList.remove('mobile-sim');
       }
     }
 
