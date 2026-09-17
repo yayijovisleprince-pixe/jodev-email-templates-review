@@ -27,7 +27,7 @@
     header {
       background: #090f19;
       border-bottom: 1px solid #1e293b;
-      padding: 14px 20px;
+      padding: 12px 20px;
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -108,7 +108,7 @@
       font-weight: 700;
     }
 
-    /* BARRE DES STYLES DÉFILABLE SUR MOBILE */
+    /* BARRE DES STYLES */
     .style-bar-wrapper {
       background: #0c1524;
       border-bottom: 1px solid #1e293b;
@@ -140,16 +140,17 @@
       flex-shrink: 0;
     }
 
-    /* LAYOUT PRINCIPAL RESPONSIVE */
+    /* LAYOUT PRINCIPAL */
     .main-layout {
       flex: 1;
       display: flex;
       flex-direction: row;
-      padding: 24px;
+      padding: 20px 24px;
       gap: 24px;
       max-width: 1650px;
       margin: 0 auto;
       width: 100%;
+      padding-bottom: 80px; /* Espace pour la barre fixe mobile */
     }
 
     .preview-stage {
@@ -182,24 +183,24 @@
     }
     .viewport-bar {
       background: #141f32;
-      padding: 9px 14px;
+      padding: 8px 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      border-bottom: 1px solid #1e293b;
+      flex-wrap: wrap;
+    }
+    .bar-left {
       display: flex;
       align-items: center;
       gap: 8px;
-      border-bottom: 1px solid #1e293b;
+      overflow: hidden;
     }
     .dot { width: 8px; height: 8px; border-radius: 50%; }
     .dot.red { background: #ef4444; }
     .dot.yellow { background: #f59e0b; }
     .dot.green { background: #10b981; }
-    .viewport-info {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      width: 100%;
-      margin-left: 6px;
-      overflow: hidden;
-    }
     .viewport-url {
       font-family: 'JetBrains Mono', monospace;
       font-size: 11px;
@@ -216,8 +217,30 @@
       color: #c9a84c;
       font-weight: 700;
       flex-shrink: 0;
-      margin-left: 8px;
     }
+
+    /* BOUTON VALIDATION DIRECTE SUR LA BARRE DU PREVIEW */
+    .btn-quick-pick {
+      background: linear-gradient(135deg, #c9a84c 0%, #b39238 100%);
+      color: #060b13;
+      border: none;
+      font-family: inherit;
+      font-size: 12px;
+      font-weight: 800;
+      padding: 6px 14px;
+      border-radius: 6px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s ease;
+      box-shadow: 0 2px 8px rgba(201,168,76,0.3);
+    }
+    .btn-quick-pick:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 14px rgba(201,168,76,0.5);
+    }
+
     iframe {
       width: 100%;
       height: 720px;
@@ -226,7 +249,7 @@
       display: block;
     }
 
-    /* PANNEAU D'AVIS & DIAGNOSTIC */
+    /* PANNEAU LATÉRAL */
     .audit-panel {
       width: 440px;
       max-width: 100%;
@@ -285,98 +308,284 @@
       font-weight: bold;
     }
 
-    /* FEEDBACK CARD */
-    .feedback-box {
-      background: linear-gradient(135deg, rgba(201,168,76,0.08) 0%, rgba(20,66,58,0.15) 100%);
-      border: 1px solid rgba(201,168,76,0.3);
+    /* CARTE DE VALIDATION PRINCIPALE DANS LE PANNEAU */
+    .card-validate-action {
+      background: linear-gradient(135deg, rgba(201,168,76,0.12) 0%, rgba(20,66,58,0.18) 100%);
+      border: 1px solid rgba(201,168,76,0.35);
       border-radius: 12px;
       padding: 16px;
       display: flex;
       flex-direction: column;
-      gap: 12px;
+      gap: 10px;
+      text-align: center;
     }
-    .feedback-box h4 {
+    .btn-main-validate {
+      background: linear-gradient(135deg, #c9a84c 0%, #b39238 100%);
+      color: #060b13;
+      border: none;
+      border-radius: 8px;
+      padding: 13px 20px;
+      font-family: inherit;
       font-size: 14px;
+      font-weight: 800;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: all 0.2s ease;
+      box-shadow: 0 4px 14px rgba(201,168,76,0.35);
+    }
+    .btn-main-validate:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 6px 20px rgba(201,168,76,0.5);
+    }
+
+    /* BARRE D'ACTION FLOTTANTE FIXE SUR MOBILE */
+    .mobile-floating-bar {
+      display: none;
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      background: rgba(9, 15, 25, 0.95);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-top: 1px solid #1e293b;
+      padding: 10px 14px;
+      z-index: 999;
+      box-shadow: 0 -4px 20px rgba(0,0,0,0.6);
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+    .floating-style-info {
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+    .floating-style-name {
+      font-size: 12px;
+      font-weight: 800;
+      color: #c9a84c;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .floating-template-name {
+      font-size: 10px;
+      color: #94a3b8;
+    }
+    .btn-floating-validate {
+      background: linear-gradient(135deg, #c9a84c 0%, #b39238 100%);
+      color: #060b13;
+      border: none;
+      border-radius: 8px;
+      padding: 10px 18px;
+      font-family: inherit;
+      font-size: 13px;
+      font-weight: 800;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    /* MODAL DE RÉCAPITULATIF & ENVOI */
+    .modal-backdrop {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(3, 7, 18, 0.75);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+      animation: fadeIn 0.2s ease-out;
+    }
+    .modal-backdrop.open {
+      display: flex;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    @keyframes slideUp {
+      from { transform: translateY(20px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+    .modal-content {
+      background: #09111e;
+      border: 1px solid #1e293b;
+      border-radius: 16px;
+      width: 100%;
+      max-width: 520px;
+      overflow: hidden;
+      box-shadow: 0 25px 60px rgba(0,0,0,0.8);
+      animation: slideUp 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      display: flex;
+      flex-direction: column;
+      max-height: 92vh;
+    }
+    .modal-header {
+      background: #0f192b;
+      border-bottom: 1px solid #1e293b;
+      padding: 16px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .modal-header h3 {
+      font-size: 16px;
       font-weight: 800;
       color: #ffffff;
       display: flex;
       align-items: center;
       gap: 8px;
     }
-    .feedback-box p {
-      font-size: 12px;
+    .btn-close-modal {
+      background: transparent;
+      border: none;
       color: #94a3b8;
-      line-height: 1.5;
+      font-size: 20px;
+      cursor: pointer;
+      line-height: 1;
+      padding: 4px;
     }
-    .feedback-textarea {
+    .btn-close-modal:hover {
+      color: #ffffff;
+    }
+    .modal-body {
+      padding: 20px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .recap-card {
+      background: #0d1728;
+      border: 1px solid rgba(201,168,76,0.3);
+      border-radius: 10px;
+      padding: 14px 16px;
+    }
+    .recap-title {
+      font-size: 11px;
+      color: #c9a84c;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      margin-bottom: 4px;
+    }
+    .recap-chosen-style {
+      font-size: 16px;
+      font-weight: 800;
+      color: #ffffff;
+    }
+    .recap-template-tested {
+      font-size: 12.5px;
+      color: #94a3b8;
+      margin-top: 3px;
+    }
+
+    /* PILLS DE SENTIMENT RAPIDE */
+    .sentiment-group {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+    .sentiment-pill {
+      background: #141f32;
+      border: 1px solid #1e293b;
+      color: #cbd5e1;
+      font-size: 12px;
+      font-weight: 600;
+      padding: 6px 12px;
+      border-radius: 20px;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+    .sentiment-pill:hover, .sentiment-pill.active {
+      background: rgba(201,168,76,0.15);
+      border-color: #c9a84c;
+      color: #c9a84c;
+    }
+
+    .modal-textarea {
       width: 100%;
-      background: #090f19;
+      background: #060b13;
       border: 1px solid #334155;
-      border-radius: 8px;
+      border-radius: 10px;
       color: #f1f5f9;
       font-family: inherit;
       font-size: 13px;
-      padding: 10px 12px;
+      padding: 12px;
+      min-height: 80px;
       resize: vertical;
-      min-height: 64px;
       outline: none;
-      -webkit-appearance: none;
     }
-    .feedback-textarea:focus {
+    .modal-textarea:focus {
       border-color: #c9a84c;
     }
-    .feedback-actions {
+
+    .modal-footer {
+      background: #09111e;
+      border-top: 1px solid #1e293b;
+      padding: 16px 20px;
       display: flex;
       flex-direction: column;
-      gap: 8px;
+      gap: 10px;
     }
-    .btn-wa {
+    .btn-send-wa {
       background: #14423a;
       color: #ffffff;
       border: 1px solid #287365;
-      border-radius: 8px;
-      padding: 12px 16px;
+      border-radius: 10px;
+      padding: 14px 20px;
       font-family: inherit;
-      font-size: 13px;
-      font-weight: 700;
+      font-size: 14px;
+      font-weight: 800;
       cursor: pointer;
       text-decoration: none;
-      text-align: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      transition: all 0.2s ease;
+    }
+    .btn-send-wa:hover {
+      background: #19584d;
+      transform: translateY(-1px);
+    }
+    .btn-send-email {
+      background: #0f172a;
+      color: #cbd5e1;
+      border: 1px solid #334155;
+      border-radius: 10px;
+      padding: 12px 18px;
+      font-family: inherit;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
       display: flex;
       align-items: center;
       justify-content: center;
       gap: 8px;
       transition: all 0.2s ease;
-      min-height: 44px;
     }
-    .btn-wa:hover, .btn-wa:active {
-      background: #19584d;
-    }
-    .btn-mail {
-      background: #0f172a;
-      color: #cbd5e1;
-      border: 1px solid #334155;
-      border-radius: 8px;
-      padding: 10px 14px;
-      font-family: inherit;
-      font-size: 12px;
-      font-weight: 600;
-      cursor: pointer;
-      text-decoration: none;
-      text-align: center;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 6px;
-      transition: all 0.2s ease;
-      min-height: 40px;
-    }
-    .btn-mail:hover, .btn-mail:active {
+    .btn-send-email:hover {
       color: #ffffff;
       border-color: #64748b;
     }
 
-    /* BREAKPOINTS MOBILE (< 1024px) */
+    /* ADAPTATIONS RESPONSIVE BREAKPOINTS */
     @media (max-width: 1024px) {
       .main-layout {
         flex-direction: column;
@@ -385,7 +594,6 @@
       }
       .audit-panel {
         width: 100%;
-        max-width: 100%;
       }
       .viewport-frame {
         max-width: 100%;
@@ -395,10 +603,9 @@
       }
     }
 
-    /* SMARTPHONE (< 640px) */
     @media (max-width: 640px) {
       header {
-        padding: 12px 14px;
+        padding: 10px 12px;
         flex-direction: column;
         align-items: stretch;
         gap: 10px;
@@ -419,23 +626,23 @@
         flex: 1;
         justify-content: center;
         padding: 8px 6px;
-        font-size: 11.5px;
+        font-size: 11px;
       }
       #viewportGroup {
-        display: none; /* Inutile sur un smartphone physique */
+        display: none; /* Inutile sur écran mobile physique */
       }
       .style-bar-wrapper {
         padding: 8px 12px;
       }
       .style-bar-label {
-        display: none; /* Évite de saturer l'écran */
+        display: none;
       }
       .style-pills-container .pill-btn {
-        font-size: 11.5px;
-        padding: 6px 11px;
+        font-size: 11px;
+        padding: 6px 10px;
       }
       .main-layout {
-        padding: 10px 8px;
+        padding: 10px 8px 70px 8px;
       }
       iframe {
         height: 520px;
@@ -444,6 +651,12 @@
         max-width: 100%;
         border-radius: 12px;
         border: 1px solid #1e293b;
+      }
+      .btn-quick-pick {
+        display: none; /* Remplacé par la barre fixe en bas */
+      }
+      .mobile-floating-bar {
+        display: flex; /* Active la barre d'action fixe en bas */
       }
     }
   </style>
@@ -454,8 +667,8 @@
       <div style="display: flex; align-items: center; gap: 8px;">
         <span class="brand-badge">JoDev Studio</span>
         <div>
-          <div class="brand-title">Atelier & Avis : Templates d'Emails</div>
-          <div class="brand-sub">Testez et donnez votre avis en direct</div>
+          <div class="brand-title">Atelier & Vote : Templates d'Emails</div>
+          <div class="brand-sub">Visualisez les designs et validez votre choix</div>
         </div>
       </div>
     </div>
@@ -467,7 +680,7 @@
         <button class="pill-btn" onclick="setTemplateType('autoreply')">📩 Accusé Réception</button>
       </div>
 
-      <!-- Viewport Toggle (visible sur écran bureau/tablette) -->
+      <!-- Viewport Toggle -->
       <div class="btn-group" id="viewportGroup">
         <button class="pill-btn active" onclick="setViewport('desktop')">🖥️ 600px</button>
         <button class="pill-btn" onclick="setViewport('mobile')">📱 390px</button>
@@ -475,9 +688,9 @@
     </div>
   </header>
 
-  <!-- Style Selector Bar Défilable Fluidement -->
+  <!-- Style Selector Bar Défilable -->
   <div class="style-bar-wrapper">
-    <span class="style-bar-label">Styles :</span>
+    <span class="style-bar-label">Designs :</span>
     <div class="style-pills-container" id="styleGroup">
       <button class="pill-btn active gold" onclick="setStyle('epure')">✨ Option A : Épure Executive</button>
       <button class="pill-btn" onclick="setStyle('soft')">☁️ Option B : Doux Naturel</button>
@@ -490,23 +703,45 @@
     <!-- Visualiseur Iframe Responsive -->
     <div class="preview-stage">
       <div class="viewport-frame" id="viewportFrame">
+        <!-- Barre supérieure avec bouton de validation directe -->
         <div class="viewport-bar">
-          <span class="dot red"></span>
-          <span class="dot yellow"></span>
-          <span class="dot green"></span>
-          <div class="viewport-info">
+          <div class="bar-left">
+            <span class="dot red"></span>
+            <span class="dot yellow"></span>
+            <span class="dot green"></span>
             <span class="viewport-url" id="viewportUrl">v2-epure-prospecting.html</span>
             <span class="viewport-tag" id="viewportTag">RECOMMANDÉ</span>
           </div>
+
+          <!-- BOUTON D'ACTION IMMÉDIAT LORS DE LA VISUALISATION -->
+          <button onclick="openModal()" class="btn-quick-pick">
+            ✅ Choisir ce design
+          </button>
         </div>
         <iframe id="previewFrame" src="v2-epure-prospecting.html"></iframe>
       </div>
     </div>
 
-    <!-- Panneau Diagnostic, Analyse & Feedback Direct -->
+    <!-- Panneau Diagnostic, Analyse & Validation Directe -->
     <aside class="audit-panel">
+      <!-- CARTE D'ACTION PRINCIPALE -->
+      <div class="card-validate-action">
+        <div style="font-size: 11px; font-weight: 700; color: #c9a84c; text-transform: uppercase; letter-spacing: 0.8px;">
+          Votre avis compte
+        </div>
+        <div style="font-size: 15px; font-weight: 800; color: #ffffff;" id="panelActionTitle">
+          Ce design vous plaît ?
+        </div>
+        <button onclick="openModal()" class="btn-main-validate">
+          ✅ Valider et Envoyer ce choix
+        </button>
+        <div style="font-size: 11px; color: #94a3b8;">
+          Génère le récapitulatif avec votre commentaire à compléter.
+        </div>
+      </div>
+
       <div class="audit-title">
-        <span>Fiche de Conception</span>
+        <span>Fiche du Design</span>
         <span id="activeBadge" style="font-size: 11px; padding: 3px 8px; border-radius: 4px; background: rgba(201,168,76,0.15); color: #c9a84c; font-weight: 700;">
           OPTION A
         </span>
@@ -518,31 +753,73 @@
 
       <div class="card-style-meta">
         <h4 style="font-size: 12px; color: #64748b; text-transform: uppercase; font-weight: 700; letter-spacing: 0.5px; margin-bottom: 8px;">
-          Spécifications du design
+          Caractéristiques clés
         </h4>
         <ul class="points-list" id="stylePoints">
           <!-- Rempli en JS -->
         </ul>
       </div>
+    </aside>
+  </div>
 
-      <!-- WIDGET DE VOTE ET D'AVIS DIRECT -->
-      <div class="feedback-box">
-        <h4>💬 Donnez votre avis à Jovis</h4>
-        <p>
-          Quel design préférez-vous ? Une remarque pour sublimer le rendu ?
-        </p>
-        <textarea id="feedbackText" class="feedback-textarea" placeholder="Votre commentaire, préférence ou suggestion..."></textarea>
-        
-        <div class="feedback-actions">
-          <button onclick="sendViaWhatsApp()" class="btn-wa">
-            📲 Envoyer mon avis sur WhatsApp
-          </button>
-          <button onclick="sendViaEmail()" class="btn-mail">
-            ✉️ Envoyer par Email
-          </button>
+  <!-- BARRE D'ACTION FIXE SUR MOBILE LORS DU DÉFILEMENT -->
+  <div class="mobile-floating-bar" id="mobileFloatingBar">
+    <div class="floating-style-info">
+      <span class="floating-style-name" id="floatingStyleName">Option A : Épure Executive</span>
+      <span class="floating-template-name" id="floatingTemplateName">Prospection B2B</span>
+    </div>
+    <button onclick="openModal()" class="btn-floating-validate">
+      ✅ Choisir ce design
+    </button>
+  </div>
+
+  <!-- MODAL DE RÉCAPITULATIF & ENVOI IMMÉDIAT -->
+  <div class="modal-backdrop" id="voteModal" onclick="handleBackdropClick(event)">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>✨ Valider votre choix pour Jovis</h3>
+        <button class="btn-close-modal" onclick="closeModal()">✕</button>
+      </div>
+
+      <div class="modal-body">
+        <!-- Récapitulatif automatique du choix -->
+        <div class="recap-card">
+          <div class="recap-title">📌 Récapitulatif de votre sélection :</div>
+          <div class="recap-chosen-style" id="modalRecapStyle">Option A : Épure Executive</div>
+          <div class="recap-template-tested" id="modalRecapTemplate">Template : Email de Prospection B2B</div>
+        </div>
+
+        <!-- Réaction rapide en 1 clic -->
+        <div>
+          <label style="font-size: 12px; font-weight: 700; color: #94a3b8; display: block; margin-bottom: 6px;">
+            Impression générale (optionnel) :
+          </label>
+          <div class="sentiment-group">
+            <button type="button" class="sentiment-pill active" onclick="setSentiment(this, 'J\'adore 😍')">J'adore 😍</button>
+            <button type="button" class="sentiment-pill" onclick="setSentiment(this, 'Sobre & Pro 💼')">Sobre & Pro 💼</button>
+            <button type="button" class="sentiment-pill" onclick="setSentiment(this, 'Moderne ⚡')">Moderne ⚡</button>
+            <button type="button" class="sentiment-pill" onclick="setSentiment(this, 'À peaufiner 🛠️')">À peaufiner 🛠️</button>
+          </div>
+        </div>
+
+        <!-- Commentaire à compléter -->
+        <div>
+          <label for="modalComment" style="font-size: 12px; font-weight: 700; color: #94a3b8; display: block; margin-bottom: 6px;">
+            Votre remarque ou conseil pour Jovis (optionnel) :
+          </label>
+          <textarea id="modalComment" class="modal-textarea" placeholder="Ex : Très propre, la typographie est bien lisible..."></textarea>
         </div>
       </div>
-    </aside>
+
+      <div class="modal-footer">
+        <button onclick="submitViaWhatsApp()" class="btn-send-wa">
+          📲 Confirmer & Envoyer sur WhatsApp
+        </button>
+        <button onclick="submitViaEmail()" class="btn-send-email">
+          ✉️ Confirmer & Envoyer par Email (yayijovisleprince@gmail.com)
+        </button>
+      </div>
+    </div>
   </div>
 
   <script>
@@ -616,6 +893,7 @@
     let activeStyle = 'epure';
     let activeType = 'prospecting';
     let activeViewport = 'desktop';
+    let activeSentiment = "J'adore 😍";
 
     function render() {
       const data = styleData[activeStyle];
@@ -632,7 +910,7 @@
       document.getElementById('activeBadge').textContent = data.name.toUpperCase();
       document.getElementById('activeBadge').style.color = data.badgeColor;
 
-      // Details
+      // Détails
       document.getElementById('styleDetails').innerHTML = `
         <h3>${data.name}</h3>
         <p>${data.desc}</p>
@@ -642,6 +920,11 @@
       document.getElementById('stylePoints').innerHTML = data.points.map(p => `
         <li><span class="check">✓</span> ${p}</li>
       `).join('');
+
+      // Floating mobile bar info
+      const templateName = activeType === 'prospecting' ? 'Prospection B2B' : 'Accusé de Réception';
+      document.getElementById('floatingStyleName').textContent = data.name;
+      document.getElementById('floatingTemplateName').textContent = templateName;
     }
 
     function setStyle(st) {
@@ -677,38 +960,68 @@
       }
     }
 
-    // Fonctions d'envoi du feedback
-    function sendViaWhatsApp() {
-      const comment = document.getElementById('feedbackText').value.trim();
-      const styleName = styleData[activeStyle].name;
+    // GESTION DU MODAL DE RÉCAPITULATIF
+    function openModal() {
+      const data = styleData[activeStyle];
       const templateName = activeType === 'prospecting' ? 'Email de Prospection B2B' : 'Email d\'Accusé de Réception';
       
-      let msg = `Bonjour Jovis ! J'ai examiné tes templates d'emails sur le Mail Studio.\n\n`;
-      msg += `⭐ Mon choix favori : *${styleName}*\n`;
-      msg += `📑 Testé sur : *${templateName}*\n`;
-      if (comment) {
-        msg += `💡 Ma remarque : "${comment}"\n`;
-      }
+      document.getElementById('modalRecapStyle').textContent = data.name;
+      document.getElementById('modalRecapTemplate').textContent = `Flux : ${templateName} (${data.tag})`;
       
-      const url = `https://wa.me/2290198404806?text=${encodeURIComponent(msg)}`;
-      window.open(url, '_blank');
+      document.getElementById('voteModal').classList.add('open');
+      document.getElementById('modalComment').focus();
     }
 
-    function sendViaEmail() {
-      const comment = document.getElementById('feedbackText').value.trim();
-      const styleName = styleData[activeStyle].name;
-      const templateName = activeType === 'prospecting' ? 'Email de Prospection B2B' : 'Email d\'Accusé de Réception';
-      
-      const subject = encodeURIComponent(`Mon avis sur les templates d'emails JoDev (${styleName})`);
-      let body = `Bonjour Jovis,\n\nJ'ai testé les templates d'emails sur ton studio de prévisualisation.\n\n`;
-      body += `Style recommandé : ${styleName}\n`;
-      body += `Template évalué : ${templateName}\n\n`;
-      if (comment) {
-        body += `Commentaire / Avis :\n${comment}\n\n`;
+    function closeModal() {
+      document.getElementById('voteModal').classList.remove('open');
+    }
+
+    function handleBackdropClick(e) {
+      if (e.target.id === 'voteModal') {
+        closeModal();
       }
-      body += `À bientôt !`;
+    }
+
+    function setSentiment(btn, sentimentText) {
+      activeSentiment = sentimentText;
+      document.querySelectorAll('.sentiment-pill').forEach(p => p.classList.remove('active'));
+      btn.classList.add('active');
+    }
+
+    // PRÉPARATION DU RÉCAPITULATIF TEXTUEL
+    function generateFullRecap() {
+      const data = styleData[activeStyle];
+      const templateName = activeType === 'prospecting' ? 'Email de Prospection B2B' : 'Email d\'Accusé de Réception';
+      const comment = document.getElementById('modalComment').value.trim();
+
+      let recap = `Bonjour Jovis ! Voici mon choix et avis sur tes templates d'emails :\n\n`;
+      recap += `✅ Mon choix favori : *${data.name}*\n`;
+      recap += `📑 Template testé : *${templateName}*\n`;
+      if (activeSentiment) {
+        recap += `🎯 Mon impression : *${activeSentiment}*\n`;
+      }
+      if (comment) {
+        recap += `\n💬 Ma remarque / suggestion :\n"${comment}"\n`;
+      }
+      recap += `\n(Transmis via JoDev Mail Studio)`;
+      return recap;
+    }
+
+    function submitViaWhatsApp() {
+      const msg = generateFullRecap();
+      const url = `https://wa.me/2290198404806?text=${encodeURIComponent(msg)}`;
+      window.open(url, '_blank');
+      closeModal();
+    }
+
+    function submitViaEmail() {
+      const styleName = styleData[activeStyle].name;
+      const subject = encodeURIComponent(`[Avis Mail Studio] Mon choix : ${styleName}`);
+      const body = encodeURIComponent(generateFullRecap());
+      const recipient = 'yayijovisleprince@gmail.com';
       
-      window.location.href = `mailto:yayijovisleprince@gmail.com?subject=${subject}&body=${encodeURIComponent(body)}`;
+      window.location.href = `mailto:${recipient}?subject=${subject}&body=${body}`;
+      closeModal();
     }
 
     render();
